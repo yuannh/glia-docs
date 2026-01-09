@@ -1,0 +1,54 @@
+# ADR 0002: Fixed SSE event protocol for chat streaming
+
+- Status: Accepted
+- Date: 2026-01-07
+
+## Context
+
+As streaming stabilized, ad-hoc event shapes and types began to emerge.
+Without a fixed protocol, client implementations risk divergence and
+future-breaking changes.
+
+A minimal, stable event contract is required to support iteration without
+protocol churn.
+
+## Decision
+
+The SSE protocol for `/api/chat` is fixed to **four event types only**:
+
+- `token` — incremental text output
+- `card` — optional derived artifacts
+- `error` — normalized error information
+- `done` — explicit stream termination
+
+No other event types are permitted.
+
+Payload conventions are normalized and documented in a single canonical
+protocol file.
+
+## Consequences
+
+### Positive
+- Client state machines are simple and stable.
+- Future features must compose within existing event types.
+- Debug and experimental behavior can be gated without protocol changes.
+
+### Trade-offs
+- Some expressiveness is intentionally constrained.
+- Additional semantics must be encoded within payloads, not new events.
+
+## Alternatives Considered
+
+- Allowing arbitrary event types (rejected: protocol drift).
+- Encoding semantics in connection close (rejected: non-observable).
+- Multiple protocol versions (rejected for Phase 1).
+
+## Validation
+
+- All chat streams emit only the four defined events.
+- Error scenarios emit `error` followed by `done`.
+
+## Links
+
+- Protocol definition: `app/core/protocol.md`
+- Related ADR: ADR 0001
