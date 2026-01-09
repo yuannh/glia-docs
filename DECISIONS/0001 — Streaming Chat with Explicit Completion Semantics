@@ -1,0 +1,54 @@
+# ADR 0001: Streaming chat with explicit completion semantics
+
+- Status: Accepted
+- Date: 2026-01-06
+
+## Context
+
+Glia’s primary interaction surface is conversational.
+Early experiments showed that synchronous request/response or
+connection-terminated streaming leads to ambiguous client behavior,
+especially when upstream LLM providers fail mid-generation.
+
+We need a chat interface that:
+- remains responsive during long-running generation
+- surfaces partial results incrementally
+- handles failures without leaving the client in an undefined state
+
+## Decision
+
+Glia will use **Server-Sent Events (SSE)** for `/api/chat`, with an explicit
+completion signal.
+
+The stream is defined such that:
+- Output is delivered incrementally
+- Completion is explicit (`done`), not inferred from connection close
+- Errors are modeled as data, not transport failures
+
+A chat stream must always terminate with a completion event.
+
+## Consequences
+
+### Positive
+- Clients have a deterministic lifecycle for every chat request.
+- Partial output is preserved even when generation fails.
+- Transport stability is decoupled from upstream model reliability.
+
+### Trade-offs
+- The server must manage explicit stream termination.
+- Clients must implement a small state machine instead of relying on EOF.
+
+## Alternatives Considered
+
+- Synchronous HTTP responses (rejected: blocks and obscures latency).
+- Implicit completion via connection close (rejected: ambiguous on failure).
+- WebSockets (rejected for Phase 1 due to operational complexity).
+
+## Validation
+
+- `curl -N` against `/api/chat` yields incremental output.
+- Upstream model failure does not cause connection termination without completion.
+
+## Links
+
+- Architecture snapshot: `architecture/phase-1.md`
