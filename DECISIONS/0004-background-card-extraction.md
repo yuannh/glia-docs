@@ -8,8 +8,8 @@
 Executing card extraction within the API process introduced resource
 contention and coupled background cognition to user-facing interaction.
 
-Phase 1 requires clear separation between interaction and long-running
-processing.
+Clear separation between user-facing interaction and long-running
+background processing is treated as a first-class system constraint.
 
 ## Decision
 
@@ -35,13 +35,18 @@ Extraction is enqueued after chat completion and never blocks streaming.
 
 ## Alternatives Considered
 
-- API-bound background tasks (rejected: shared resource contention).
-- Synchronous extraction before completion (rejected: UX impact).
-- Heavy orchestration frameworks (rejected for Phase 1 complexity).
+- API-bound background tasks  
+  Rejected: shared resource contention and unclear failure isolation.
+
+- Synchronous extraction before completion  
+  Rejected: direct impact on interaction latency and user experience.
+
+- Heavy orchestration frameworks  
+  Rejected: operational and conceptual overhead disproportionate to system needs.
 
 ## Validation
 
-- Chat streams complete immediately.
+- Chat streams complete without waiting for extraction.
 - Cards appear asynchronously via query.
 - Extraction success and failure are observable independently.
 
