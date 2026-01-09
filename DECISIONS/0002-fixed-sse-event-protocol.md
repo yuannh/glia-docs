@@ -9,8 +9,8 @@ As streaming behavior stabilized, ad-hoc event types and payload shapes
 began to emerge. Without a fixed protocol, client implementations risk
 divergence and future-breaking changes.
 
-Phase 1 favors minimal, stable contracts over expressive but evolving
-protocols.
+A minimal and stable event contract is treated as a first-class system
+constraint.
 
 ## Decision
 
@@ -37,9 +37,14 @@ All payload conventions are documented in a single canonical protocol.
 
 ## Alternatives Considered
 
-- Allowing arbitrary event types (rejected: protocol drift).
-- Versioned protocols (rejected for Phase 1).
-- Encoding semantics in transport behavior (rejected).
+- Allowing arbitrary event types  
+  Rejected: protocol drift and client divergence.
+
+- Versioned protocols  
+  Rejected: increased coordination and compatibility overhead.
+
+- Encoding semantics in transport behavior  
+  Rejected: non-observable and ambiguous failure modes.
 
 ## Validation
 
