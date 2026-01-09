@@ -112,6 +112,10 @@ Glia is under active development.
 
 Details related to models, prompts, data handling, and internal logic are intentionally omitted.
 
+A legacy implementation currently supports live usage and testing.
+This repository documents the architecture and design decisions of a
+next-generation backend being developed in parallel.
+
 ---
 
 ## Notes
