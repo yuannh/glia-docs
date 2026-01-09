@@ -1,13 +1,17 @@
-# Glia  
-*A private AI system conceived as a co-author of one's Bildungsroman.*
+# Glia
+
+*A private AI system conceived as a co-author of one’s Bildungsroman.*
 
 ---
 
 ## What Is Glia?
 
-Glia is a private, early-stage AI system designed to support long-term reflection, context continuity, and personal meaning-making.
+Glia is a private, early-stage AI system designed to support long-term reflection,
+context continuity, and personal meaning-making.
 
-Rather than optimizing for short, transactional interactions, Glia explores how an AI system might participate—carefully and non-intrusively—in an individual’s ongoing process of growth, decision-making, and self-understanding.
+Rather than optimizing for short, transactional interactions, Glia explores how an AI
+system might participate—carefully and non-intrusively—in an individual’s ongoing
+process of growth, decision-making, and self-understanding.
 
 This repository contains **public-facing documentation and architectural notes**.  
 The core implementation of Glia remains private.
@@ -22,27 +26,23 @@ To clarify intent and boundaries, Glia is explicitly **not**:
 - A prompt collection or thin LLM wrapper  
 - A productivity tool optimized for short-term output  
 
-Glia is intentionally designed around **continuity, context, and restraint**, rather than immediacy or maximal automation.
+Glia is intentionally designed around **continuity, context, and restraint**, rather
+than immediacy, maximal automation, or engagement-driven optimization.
 
 ---
 
-## High-Level System Overview
+## System Orientation (High-Level)
 
-At a high level, Glia is structured as an asynchronous system:
+At a conceptual level, Glia is designed as an **asynchronous, decoupled system**:
 
-Client / Interface
-↓
-FastAPI (API layer)
-↓
-Redis (shared state & task queue)
-↓
-Celery Workers (background processing)
+- User interaction is separated from long-running processing  
+- Context is treated as a persistent, evolving concern rather than a transient request artifact  
+- Background work is expected to take time and may surface results incrementally  
 
-This separation allows the system to:
+The system favors **clarity and observability** over synchronous completion or hidden automation.
 
-- Handle long-running cognitive or analytical tasks without blocking user interaction  
-- Maintain shared context across processes and time  
-- Evolve interface, orchestration, and background logic independently  
+Concrete implementations and system topology are intentionally documented elsewhere
+and may evolve over time.
 
 ---
 
@@ -51,32 +51,45 @@ This separation allows the system to:
 Glia is guided by a small set of explicit architectural principles:
 
 - **Separation of concerns**  
-  API handling, background processing, and state management are deliberately decoupled.
+  Interaction, coordination, and background processing are deliberately decoupled.
 
 - **Asynchronous by default**  
-  Meaningful reflection and synthesis often take time; the system is designed to respect that rather than hide it.
+  Meaningful reflection and synthesis take time; the system is designed to respect that.
 
 - **Context as a first-class concept**  
-  Context is treated as an evolving state, not a transient request artifact.  
-  It persists beyond individual interactions and is shaped gradually over time.
+  Context evolves across interactions rather than being regenerated per request.
 
 - **Restraint over maximalism**  
-  The system avoids over-intervention, excessive automation, or constant optimization for engagement.
+  The system avoids over-intervention, excessive automation, and feature accumulation.
 
 ---
 
-## Engineering Maturity (Non-Exhaustive)
+## Engineering Posture
 
 While core implementation details remain private, Glia is not a conceptual prototype.
 
-The system currently includes:
+The system demonstrates early production-oriented characteristics, including:
 
-- A production-grade API boundary with request tracing  
-- Asynchronous task execution with explicit retry and failure boundaries  
-- Clear separation between user-facing interaction and background cognition  
-- Early operational learnings around latency, idempotency, and partial failure  
+- Clear operational boundaries between interaction and background processing  
+- Explicit handling of delayed, partial, or incremental results  
+- Observability sufficient to reason about system behavior over time  
 
-This repository documents **design intent and system boundaries**, not feature completeness.
+This repository documents **design intent and system boundaries**, not feature completeness
+or implementation specifics.
+
+---
+
+## Architecture Documentation
+
+Glia maintains **phase-scoped architecture documentation** to reflect system evolution
+over time.
+
+For the current system design, see:
+
+- [`architecture/`](./architecture/)  
+  - **Phase 1** — Asynchronous Single-User System
+
+Each phase represents a time-scoped snapshot rather than a final or idealized state.
 
 ---
 
@@ -103,11 +116,13 @@ Details related to models, prompts, data handling, and internal logic are intent
 
 ## Notes
 
-The term *Bildungsroman* is used deliberately, referring to a narrative of personal formation and growth over time.
+The term *Bildungsroman* is used deliberately, referring to a narrative of personal
+formation and growth over time.
 
 Glia does not aim to write this narrative—  
 but to quietly support its unfolding.
 
 ---
 
-*This repository is intended for engineers, researchers, and system designers interested in long-horizon AI systems, rather than end-user applications.*
+*This repository is intended for engineers, researchers, and system designers interested
+in long-horizon AI systems, rather than end-user applications.*
