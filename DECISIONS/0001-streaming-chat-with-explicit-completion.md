@@ -6,12 +6,18 @@
 ## Context
 
 Glia’s primary interaction surface is conversational.
-Synchronous request/response patterns or implicitly terminated streams
-were found to produce ambiguous client behavior, particularly when
-upstream model execution fails mid-generation.
+Early exploration showed that synchronous request/response patterns or
+implicitly terminated streams lead to ambiguous client behavior,
+particularly when upstream model execution fails mid-generation.
 
-Phase 1 prioritizes non-blocking interaction and explicit system behavior
-over synchronous completion guarantees.
+When completion is inferred from connection closure, clients cannot
+reliably distinguish between:
+- successful completion,
+- partial output due to failure,
+- or transport-level interruption.
+
+Non-blocking interaction and explicit completion semantics are treated
+as first-class system constraints.
 
 ## Decision
 
@@ -19,9 +25,9 @@ The `/api/chat` endpoint uses **Server-Sent Events (SSE)** with an explicit
 completion signal.
 
 A chat stream must:
-- deliver output incrementally
-- model errors as data rather than transport failures
-- always terminate with an explicit completion event
+- deliver output incrementally,
+- model errors as data rather than transport failures,
+- always terminate with an explicit completion event.
 
 Completion is never inferred from connection closure.
 
@@ -38,14 +44,21 @@ Completion is never inferred from connection closure.
 
 ## Alternatives Considered
 
-- Synchronous HTTP responses (rejected: blocks interaction).
-- Implicit termination via connection close (rejected: ambiguous on failure).
-- WebSockets (rejected for Phase 1 due to operational complexity).
+- Synchronous HTTP responses  
+  Rejected: blocks interaction and obscures latency.
+
+- Implicit termination via connection close  
+  Rejected: ambiguous in the presence of partial failures.
+
+- WebSockets  
+  Rejected: increased operational complexity and connection lifecycle management
+  relative to the system’s needs at this stage.
 
 ## Validation
 
 - Streaming output is observable via `curl -N`.
-- Failure cases terminate with completion rather than broken connections.
+- Failure cases terminate with an explicit completion event rather than
+  a broken connection.
 
 ## Links
 
