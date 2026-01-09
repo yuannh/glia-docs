@@ -9,8 +9,8 @@ Cards are introduced as structured artifacts derived from conversation
 history. A key question was whether cards should be produced as immediate
 side effects of chat execution or treated as independently derived state.
 
-Phase 1 emphasizes clarity, failure tolerance, and observable system
-boundaries.
+Clarity, failure tolerance, and explicit system boundaries are treated
+as first-class system constraints.
 
 ## Decision
 
@@ -38,9 +38,14 @@ Writes to the card store are atomic:
 
 ## Alternatives Considered
 
-- Streaming cards inline with chat (rejected: latency coupling).
-- Treating cards as ephemeral UI artifacts (rejected: loss of history).
-- Incremental append-only writes (rejected: state corruption risk).
+- Streaming cards inline with chat  
+  Rejected: latency coupling between interaction and extraction.
+
+- Treating cards as ephemeral UI artifacts  
+  Rejected: loss of history and replayability.
+
+- Incremental append-only writes  
+  Rejected: risk of state corruption and partial knowledge.
 
 ## Validation
 
