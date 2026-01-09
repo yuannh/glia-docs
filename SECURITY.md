@@ -11,6 +11,11 @@ clarifies the **current security boundaries and limitations** of the system.
 
 It is not a statement of full security maturity or compliance.
 
+**This document evolves as Glia matures and reflects the current security posture.**
+
+It is not a statement of full security maturity, formal guarantees,
+or regulatory compliance.
+
 ---
 
 ## Current Security Posture
