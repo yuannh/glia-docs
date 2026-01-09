@@ -4,12 +4,13 @@
 >
 > This document describes the architecture of Glia as of **Phase 1 (early 2026)**.
 >
-> Phase 1 focuses on establishing a reliable asynchronous foundation for a
-> single-user, reflection-oriented system. Architectural decisions documented here
-> are made under that constraint and are expected to evolve in later phases.
+> Phase 1 establishes a reliable asynchronous foundation for a
+> single-user, reflection-oriented system.
+> The architecture described here reflects a specific set of accepted
+> system constraints and decisions, and is expected to evolve in later phases.
 >
-> This document is updated intentionally and does not attempt to retroactively
-> rewrite architectural history.
+> This document is intentionally time-scoped and does not attempt to
+> retroactively rewrite architectural history.
 
 ---
 
@@ -29,21 +30,27 @@ Explicitly out of scope for Phase 1:
 
 ---
 
-## Design Goals
+## Design Goals and Accepted Constraints
 
-The Phase 1 architecture is shaped by the following constraints:
+The Phase 1 architecture reflects the following accepted constraints:
 
 - **Non-blocking user interaction**  
-  User-facing requests must remain responsive regardless of downstream processing time.
+  User-facing requests remain responsive regardless of downstream
+  processing duration.
 
 - **Clear separation of concerns**  
-  API coordination, background execution, and shared state must remain loosely coupled.
+  Interaction coordination, background execution, and shared state are
+  explicitly decoupled.
 
 - **Shared, visible state across processes**  
-  Intermediate results and task progress must be observable across system boundaries.
+  Intermediate results and task progress are observable across system
+  boundaries.
 
 - **Operational simplicity over extensibility**  
-  The system favors explicit, understandable flows over future-proof abstractions.
+  Explicit, understandable flows are favored over future-proof abstractions.
+
+These constraints prioritize correctness, debuggability, and learning
+velocity over completeness.
 
 ---
 
@@ -51,12 +58,12 @@ The Phase 1 architecture is shaped by the following constraints:
 
 During Phase 1, the architecture intentionally does **not** aim to:
 
-- Provide a stable or public API contract
-- Expose model, prompt, or data-handling internals
+- Provide a fully stable or public-facing API surface
+- Expose model, prompt, or internal data-handling details
 - Optimize for multi-tenant scalability
-- Serve as a production SLO or compliance reference
+- Serve as a production SLO, compliance, or governance reference
 
-These omissions are deliberate and protect early learning velocity.
+These omissions are deliberate and preserve flexibility for future phases.
 
 ---
 
@@ -64,13 +71,13 @@ These omissions are deliberate and protect early learning velocity.
 
 At a high level, Glia Phase 1 is structured as an asynchronous pipeline:
 
-Client / Interface
-↓
-API Layer (FastAPI)
-↓
-Shared State & Queue (Redis)
-↓
-Background Workers (Celery)
+Client / Interface  
+↓  
+API Layer  
+↓  
+Shared Coordination & State  
+↓  
+Background Workers  
 
 Each layer has a narrow, explicitly defined responsibility.
 
@@ -78,49 +85,47 @@ Each layer has a narrow, explicitly defined responsibility.
 
 ## System Components
 
-### API Layer (FastAPI)
+### API Layer
+
+The API layer serves as a **coordination boundary**, not a computation surface.
 
 **Responsibilities**
 - Request validation and boundary enforcement
-- User-facing orchestration (including streaming / SSE)
-- Enqueueing background work and presenting observable results
+- User-facing orchestration, including streaming responses
+- Enqueueing background work and exposing observable outcomes
 
 **Non-responsibilities**
 - Long-running extraction or synthesis
 - Blocking or compute-heavy workflows
 
-The API layer is treated as a coordination boundary, not a computation surface.
-
 ---
 
-### Shared State & Coordination (Redis)
+### Shared Coordination & State
 
-Redis serves as a **coordination and visibility layer**, not a source of truth.
+Shared infrastructure provides **coordination and visibility**, not durable truth.
 
 **Responsibilities**
-- Task queue / broker for background jobs
-- Short-to-medium-lived shared state across processes
+- Task queue / broker for background execution
+- Short- to medium-lived shared state across processes
 - Visibility into task progress and partial results
 
-**Rationale**
-- Low latency and simple operational model
-- Strong cross-process visibility
-- Predictable failure and recovery behavior
-
-Redis is intentionally used to avoid coupling request handling to durable storage semantics.
+This layer intentionally avoids durable storage semantics to prevent
+tight coupling between interaction and persistence.
 
 ---
 
-### Background Processing (Celery Workers)
+### Background Processing
+
+Background workers execute **long-running and failure-tolerant tasks**.
 
 **Responsibilities**
-- Long-running extraction, analysis, and post-processing
-- Isolated execution of background tasks
+- Extraction, analysis, and post-processing
+- Isolated execution independent of API request lifecycles
 
 **Execution properties**
 - At-least-once execution semantics
 - Explicit retry and failure boundaries
-- Horizontally scalable independent of API traffic
+- Horizontal scalability independent of API traffic
 
 Workers are treated as disposable and failure-tolerant by design.
 
@@ -129,7 +134,7 @@ Workers are treated as disposable and failure-tolerant by design.
 ## Data & State Model (High-Level)
 
 - State is scoped primarily at the **conversation level**
-- Background tasks are expected to be **idempotent**
+- Derived artifacts are produced asynchronously from conversation state
 - Partial, delayed, or incremental results are considered normal
 
 The system assumes:
@@ -143,15 +148,16 @@ Consistency is eventual and contextual rather than immediate or global.
 
 ## Request & Execution Flow
 
-A typical request follows this sequence:
+A typical interaction follows this sequence:
 
-1. Client submits a request to the API
-2. API validates input and enqueues background work
-3. Worker processes the task asynchronously
-4. Shared state is updated as progress or results emerge
-5. Client observes updates via polling or streaming
+1. The client submits a request to the API
+2. The API validates input and initiates streaming output
+3. Background work is enqueued independently of streaming
+4. Workers process tasks asynchronously
+5. Shared state is updated as progress or results emerge
+6. The client observes outcomes via streaming or subsequent queries
 
-The system does not assume a single synchronous completion point.
+No single synchronous completion point is assumed.
 
 ---
 
@@ -159,11 +165,11 @@ The system does not assume a single synchronous completion point.
 
 Observability is scoped to system boundaries:
 
-- Logging is separated between API and worker contexts
-- Correlation identifiers may be propagated across enqueue and execution boundaries
+- Logging is separated between API and background execution contexts
+- Correlation identifiers may propagate across enqueue and execution boundaries
 - Retries are explicit, bounded, and observable
 
-The goal is to surface failure modes clearly rather than conceal them.
+The system favors surfacing failure modes clearly rather than concealing them.
 
 ---
 
@@ -172,21 +178,34 @@ The goal is to surface failure modes clearly rather than conceal them.
 This document intentionally omits details related to:
 - Models and prompts
 - Data retention and storage
-- Access control and authentication
+- Authentication and access control
 
 Phase 1 guiding principles:
 - Least privilege between components
 - Minimal exposure of sensitive context
-- Clear trust boundaries between system layers
+- Clear trust boundaries between system roles
+
+---
+
+## Related Architecture Decisions
+
+The Phase 1 architecture reflects the following accepted
+Architecture Decision Records:
+
+- **ADR 0001** — Streaming chat with explicit completion semantics
+- **ADR 0002** — Fixed SSE event protocol for chat streaming
+- **ADR 0003** — Cards as derived facts, not immediate chat side effects
+- **ADR 0004** — Background card extraction via dedicated workers
 
 ---
 
 ## Evolution Beyond Phase 1
 
 Subsequent phases are expected to introduce changes such as:
-- Stronger durability guarantees
-- More explicit context lifecycle management
+- Durable persistence and stronger consistency guarantees
+- Explicit context lifecycle management
 - Multi-user isolation and access control
+- Expanded observability and operational tooling
 
-When such shifts occur, new documents will be introduced rather than
-retroactively redefining Phase 1 decisions.
+When such shifts occur, new phase documents will be introduced rather than
+retroactively redefining Phase 1.
