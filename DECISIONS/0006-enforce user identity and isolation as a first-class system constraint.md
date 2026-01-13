@@ -66,3 +66,6 @@ Validation / Acceptance Criteria
 
 Links
 	•	ADR 0005: Persist Conversations and Cards in a Shared System of Record
+	•   Architecture — Phase 2  
+  This decision is reflected as a core system constraint in
+  `architecture/phase-2.md`.
