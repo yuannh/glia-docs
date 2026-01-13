@@ -100,3 +100,5 @@ This decision is considered accepted when:
 - Related ADRs:
   - `DECISIONS/0003-cards-as-derived-facts.md`
   - `DECISIONS/0004-background-card-extraction.md`
+  - Architecture — Phase 2  
+  This decision manifests as a system-wide constraint in `architecture/phase-2.md`.
