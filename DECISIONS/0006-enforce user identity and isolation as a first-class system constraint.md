@@ -1,4 +1,4 @@
-## ADR 0006: Enforce User Identity and Isolation as a First-Class System Constraint
+# ADR 0006: Enforce User Identity and Isolation as a First-Class System Constraint
 
 Status: Accepted
 Date: 2026-01-12
