@@ -1,4 +1,4 @@
-ADR 0007: Make Card Extraction Idempotent and Atomic via Extract Runs
+# ADR 0007: Make Card Extraction Idempotent and Atomic via Extract Runs
 
 Status: Accepted
 Date: 2026-01-12
