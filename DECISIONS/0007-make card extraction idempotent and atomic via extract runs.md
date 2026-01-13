@@ -67,3 +67,6 @@ Validation / Acceptance Criteria
 Links
 	•	ADR 0003: Cards as Derived Facts
 	•	ADR 0004: Background Card Extraction
+    •   Architecture — Phase 2  
+        This decision is reflected as a core system constraint in
+        `architecture/phase-2.md`.
