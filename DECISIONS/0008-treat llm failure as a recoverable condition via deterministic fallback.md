@@ -29,25 +29,25 @@ LLM failure is treated as a recoverable condition, not a fatal error.
 
 ## Consequences
 
- Positive
+### Positive
 	•	Card extraction remains reliable even when LLM providers fail.
 	•	System availability is decoupled from third-party services.
 	•	Operators gain visibility into LLM reliability and fallback frequency.
 	•	Future extractor strategies can evolve without changing system semantics.
 
- Trade-offs
+### Trade-offs
 	•	Extracted cards may be less semantically rich during fallback.
 	•	Observability and metrics become essential to monitor quality degradation.
 	•	“Success” no longer implies “LLM succeeded,” only that extraction completed.
 
 
 ## Alternatives Considered
-	•	Fail extraction on LLM error
-Rejected: causes unnecessary system degradation.
-	•	Disable extraction entirely when LLM fails
-Rejected: violates derived-data guarantees.
-	•	Retry indefinitely until LLM succeeds
-Rejected: leads to queue backlogs and unpredictable latency.
+	•Fail extraction on LLM error
+	Rejected: causes unnecessary system degradation.
+	•Disable extraction entirely when LLM fails
+	Rejected: violates derived-data guarantees.
+	•Retry indefinitely until LLM succeeds
+	Rejected: leads to queue backlogs and unpredictable latency.
 
 
 ## Validation / Acceptance Criteria
