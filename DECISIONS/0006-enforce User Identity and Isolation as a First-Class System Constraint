@@ -1,0 +1,68 @@
+ADR 0006: Enforce User Identity and Isolation as a First-Class System Constraint
+
+Status: Accepted
+Date: 2026-01-12
+
+⸻
+
+Context
+
+Early iterations of the system operated under a demo-style assumption where user identity was implicit or client-provided.
+As the system evolved to support persistent conversations, background processing, and multi-user access, this model became unsafe.
+
+Without a first-class notion of user identity enforced by the system:
+	•	Any client could potentially access or mutate another user’s conversations or cards.
+	•	Authorization rules would be inconsistently applied across API, background jobs, and storage layers.
+	•	Future features (sharing, permissions, auditability) would be built on an unstable foundation.
+
+User identity must therefore become a non-optional system invariant, not a best-effort convention.
+
+⸻
+
+Decision
+
+The system enforces authenticated user identity as a first-class constraint:
+	•	Every request is associated with a user_id derived from server-side authentication.
+	•	Clients are not permitted to supply or override user_id.
+	•	All reads and writes of conversations, messages, and cards are scoped by user_id.
+	•	Background jobs execute with explicit user context and must obey the same isolation rules as API requests.
+
+Requests without valid authentication are rejected.
+
+⸻
+
+Consequences
+
+Positive
+	•	Strong isolation between users is guaranteed at the system level.
+	•	Authorization rules are consistent across API, background workers, and persistence.
+	•	Future features (multi-device sync, sharing, audit logs) can rely on a stable identity model.
+	•	Security assumptions are explicit rather than implicit.
+
+Trade-offs
+	•	Local development and debugging require authentication scaffolding.
+	•	All system boundaries (API, jobs, stores) must propagate user context explicitly.
+	•	Retrofitting identity into existing code required coordinated changes across layers.
+
+⸻
+
+Alternatives Considered
+	•	Client-supplied user identifiers
+Rejected: trivial to spoof and impossible to secure consistently.
+	•	Per-conversation access tokens
+Rejected: increases complexity without solving global identity concerns.
+	•	Implicit single-user assumption
+Rejected: incompatible with persistence and multi-user operation.
+
+⸻
+
+Validation / Acceptance Criteria
+	•	Requests without authentication return 401 Unauthorized.
+	•	A user cannot access another user’s conversations or cards.
+	•	Background jobs cannot read or write data outside their associated user scope.
+	•	All persisted data is associated with a user identity.
+
+⸻
+
+Links
+	•	ADR 0005: Persist Conversations and Cards in a Shared System of Record
