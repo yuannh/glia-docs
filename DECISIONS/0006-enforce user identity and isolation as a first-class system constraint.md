@@ -30,13 +30,13 @@ Requests without valid authentication are rejected.
 
 ## Consequences
 
-Positive
+###Positive
 	•	Strong isolation between users is guaranteed at the system level.
 	•	Authorization rules are consistent across API, background workers, and persistence.
 	•	Future features (multi-device sync, sharing, audit logs) can rely on a stable identity model.
 	•	Security assumptions are explicit rather than implicit.
 
-Trade-offs
+###Trade-offs
 	•	Local development and debugging require authentication scaffolding.
 	•	All system boundaries (API, jobs, stores) must propagate user context explicitly.
 	•	Retrofitting identity into existing code required coordinated changes across layers.
@@ -44,11 +44,11 @@ Trade-offs
 
 ## Alternatives Considered
 
-    •	Client-supplied user identifiers
+•Client-supplied user identifiers
 Rejected: trivial to spoof and impossible to secure consistently.
-	•	Per-conversation access tokens
+•Per-conversation access tokens
 Rejected: increases complexity without solving global identity concerns.
-	•	Implicit single-user assumption
+•Implicit single-user assumption
 Rejected: incompatible with persistence and multi-user operation.
 
 
