@@ -40,7 +40,6 @@ LLM failure is treated as a recoverable condition, not a fatal error.
 	•	Observability and metrics become essential to monitor quality degradation.
 	•	“Success” no longer implies “LLM succeeded,” only that extraction completed.
 
-⸻
 
 ## Alternatives Considered
 	•	Fail extraction on LLM error
