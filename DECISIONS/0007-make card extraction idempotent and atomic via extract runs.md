@@ -3,9 +3,8 @@ ADR 0007: Make Card Extraction Idempotent and Atomic via Extract Runs
 Status: Accepted
 Date: 2026-01-12
 
-⸻
 
-Context
+## Context
 
 Card extraction is a derived operation that may be retried, delayed, or executed concurrently due to background processing and failures.
 
@@ -16,9 +15,8 @@ Without explicit idempotency guarantees:
 
 To be production-safe, card extraction must be repeatable, deterministic, and atomic.
 
-⸻
 
-Decision
+## Decision
 
 Card extraction is modeled as an idempotent extract run with atomic writes:
 	•	Each extraction run is uniquely identified by (conversation_id, user_id, source_hash).
@@ -29,9 +27,8 @@ Card extraction is modeled as an idempotent extract run with atomic writes:
 
 Extraction results are treated as derived facts, not incremental mutations.
 
-⸻
 
-Consequences
+## Consequences
 
 Positive
 	•	Background jobs are safe to retry without risk of duplication or corruption.
@@ -44,9 +41,8 @@ Trade-offs
 	•	Cards are rewritten wholesale rather than patched incrementally.
 	•	The extraction pipeline is more complex than a naive implementation.
 
-⸻
 
-Alternatives Considered
+## Alternatives Considered
 	•	Incremental card updates
 Rejected: prone to partial failure and difficult to reason about.
 	•	Best-effort deduplication
@@ -54,15 +50,13 @@ Rejected: unreliable under retries and concurrency.
 	•	In-memory idempotency guards
 Rejected: incompatible with multi-instance deployment.
 
-⸻
 
-Validation / Acceptance Criteria
+## Validation / Acceptance Criteria
 	•	Re-running extraction for the same input does not change card state.
 	•	Concurrent extraction attempts do not produce duplicate cards.
 	•	Worker crashes during extraction do not leave empty or partial card sets.
 	•	Card state always corresponds to a complete extraction run.
 
-⸻
 
 ## Links
 
