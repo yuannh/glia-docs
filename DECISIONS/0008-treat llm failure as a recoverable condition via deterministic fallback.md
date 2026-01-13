@@ -5,7 +5,7 @@ Date: 2026-01-12
 
 ⸻
 
-Context
+## Context
 
 Large language model (LLM) calls are inherently unreliable due to network issues, rate limits, quota exhaustion, and provider errors.
 
@@ -18,7 +18,7 @@ However, card extraction is a derived enhancement, not a core transactional requ
 
 ⸻
 
-Decision
+## Decision
 
 The system adopts an LLM-first with deterministic fallback strategy:
 	•	LLM-based extraction is attempted when configured.
@@ -29,24 +29,23 @@ The system adopts an LLM-first with deterministic fallback strategy:
 
 LLM failure is treated as a recoverable condition, not a fatal error.
 
-⸻
 
-Consequences
+## Consequences
 
-Positive
+ Positive
 	•	Card extraction remains reliable even when LLM providers fail.
 	•	System availability is decoupled from third-party services.
 	•	Operators gain visibility into LLM reliability and fallback frequency.
 	•	Future extractor strategies can evolve without changing system semantics.
 
-Trade-offs
+ Trade-offs
 	•	Extracted cards may be less semantically rich during fallback.
 	•	Observability and metrics become essential to monitor quality degradation.
 	•	“Success” no longer implies “LLM succeeded,” only that extraction completed.
 
 ⸻
 
-Alternatives Considered
+## Alternatives Considered
 	•	Fail extraction on LLM error
 Rejected: causes unnecessary system degradation.
 	•	Disable extraction entirely when LLM fails
@@ -54,19 +53,21 @@ Rejected: violates derived-data guarantees.
 	•	Retry indefinitely until LLM succeeds
 Rejected: leads to queue backlogs and unpredictable latency.
 
-⸻
 
-Validation / Acceptance Criteria
+## Validation / Acceptance Criteria
 	•	Card extraction succeeds even when LLM credentials are missing or invalid.
 	•	Extract runs record whether fallback was used and the failure reason.
 	•	Cards are always produced for extractable conversations.
 	•	Operators can distinguish LLM success from fallback success.
 
-⸻
 
-Links
-	•	ADR 0003: Cards as Derived Facts
-	•	ADR 0007: Make Card Extraction Idempotent and Atomic
-	•   Architecture — Phase 2  
-        This decision is reflected as a core system constraint in
-        `architecture/phase-2.md`.
+
+## Links
+
+- **Related ADRs**
+  - `DECISIONS/0003-cards-as-derived-facts.md`
+  - `DECISIONS/0007-make-card-extraction-idempotent-and-atomic.md`
+
+- **Related Architecture**
+  This decision is reflected as a core system constraint in  
+  `architecture/phase-2.md`.
