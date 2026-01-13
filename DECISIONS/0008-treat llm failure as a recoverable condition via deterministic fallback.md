@@ -1,4 +1,4 @@
-ADR 0008: Treat LLM Failure as a Recoverable Condition via Deterministic Fallback
+# ADR 0008: Treat LLM Failure as a Recoverable Condition via Deterministic Fallback
 
 Status: Accepted
 Date: 2026-01-12
