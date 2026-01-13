@@ -42,7 +42,7 @@ Trade-offs
 	•	Retrofitting identity into existing code required coordinated changes across layers.
 
 
-Alternatives Considered
+## Alternatives Considered
 	•	Client-supplied user identifiers
 Rejected: trivial to spoof and impossible to secure consistently.
 	•	Per-conversation access tokens
