@@ -43,7 +43,8 @@ Trade-offs
 
 
 ## Alternatives Considered
-	•	Client-supplied user identifiers
+
+    •	Client-supplied user identifiers
 Rejected: trivial to spoof and impossible to secure consistently.
 	•	Per-conversation access tokens
 Rejected: increases complexity without solving global identity concerns.
