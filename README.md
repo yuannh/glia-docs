@@ -13,7 +13,7 @@ Rather than optimizing for short, transactional interactions, Glia explores how 
 system might participate—carefully and non-intrusively—in an individual’s ongoing
 process of growth, decision-making, and self-understanding.
 
-This repository contains **public-facing documentation and architectural notes**.  
+This repository contains **public-facing documentation and architectural records**.  
 The core implementation of Glia remains private.
 
 ---
@@ -68,11 +68,17 @@ Glia is guided by a small set of explicit architectural principles:
 
 While core implementation details remain private, Glia is not a conceptual prototype.
 
-The system demonstrates early production-oriented characteristics, including:
+The system demonstrates production-oriented architectural characteristics, including:
 
 - Clear operational boundaries between interaction and background processing  
 - Explicit handling of delayed, partial, or incremental results  
-- Observability sufficient to reason about system behavior over time  
+- Durable shared state independent of process lifetime  
+- User identity enforced as a system invariant  
+- Observability sufficient to trace failures and execution across system boundaries  
+
+The current architecture supports persistent state, background task replay,
+user isolation, and operational observability, even though product capabilities
+remain intentionally limited.
 
 This repository documents **design intent and system boundaries**, not feature completeness
 or implementation specifics.
@@ -86,10 +92,24 @@ over time.
 
 For the current system design, see:
 
-- [`architecture/`](./architecture/)  
-  - **Phase 1** — Asynchronous Single-User System
+- [`architecture/`](./architecture/)
+  - **Phase 1** — Asynchronous Single-User System  
+    *(initial asynchronous foundation)*
+  - **Phase 2** — Persistent, Observable, Multi-User-Capable System  
+    *(durable state, background execution, identity, and observability)*
 
 Each phase represents a time-scoped snapshot rather than a final or idealized state.
+
+---
+
+## Architecture Decision Records (ADRs)
+
+High-leverage architectural decisions are documented as **Architecture Decision Records**:
+
+- [`DECISIONS/`](./DECISIONS/)
+
+ADRs capture *why* the system took a particular shape at a given moment.
+They are append-only and not retroactively rewritten.
 
 ---
 
@@ -98,17 +118,20 @@ Each phase represents a time-scoped snapshot rather than a final or idealized st
 This public repository exists to:
 
 - Document high-level architectural and system design decisions  
-- Clarify conceptual boundaries and long-term intent  
+- Preserve architectural reasoning over time  
 - Enable thoughtful technical or research discussion  
 - Provide transparency without exposing proprietary implementation details  
 
-It is intentionally minimal.
+It is intentionally minimal and deliberately incomplete.
 
 ---
 
 ## Status
 
 Glia is under active development.
+
+The architecture described here has been exercised in live usage and validated through
+production-like execution paths, even though the product itself remains private and evolving.
 
 Details related to models, prompts, data handling, and internal logic are intentionally omitted.
 
