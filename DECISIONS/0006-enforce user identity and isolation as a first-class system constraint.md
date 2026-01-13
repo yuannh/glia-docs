@@ -1,11 +1,10 @@
-ADR 0006: Enforce User Identity and Isolation as a First-Class System Constraint
+## ADR 0006: Enforce User Identity and Isolation as a First-Class System Constraint
 
 Status: Accepted
 Date: 2026-01-12
 
-⸻
 
-Context
+## Context
 
 Early iterations of the system operated under a demo-style assumption where user identity was implicit or client-provided.
 As the system evolved to support persistent conversations, background processing, and multi-user access, this model became unsafe.
@@ -17,9 +16,8 @@ Without a first-class notion of user identity enforced by the system:
 
 User identity must therefore become a non-optional system invariant, not a best-effort convention.
 
-⸻
 
-Decision
+## Decision
 
 The system enforces authenticated user identity as a first-class constraint:
 	•	Every request is associated with a user_id derived from server-side authentication.
@@ -29,9 +27,8 @@ The system enforces authenticated user identity as a first-class constraint:
 
 Requests without valid authentication are rejected.
 
-⸻
 
-Consequences
+## Consequences
 
 Positive
 	•	Strong isolation between users is guaranteed at the system level.
@@ -44,7 +41,6 @@ Trade-offs
 	•	All system boundaries (API, jobs, stores) must propagate user context explicitly.
 	•	Retrofitting identity into existing code required coordinated changes across layers.
 
-⸻
 
 Alternatives Considered
 	•	Client-supplied user identifiers
@@ -54,15 +50,13 @@ Rejected: increases complexity without solving global identity concerns.
 	•	Implicit single-user assumption
 Rejected: incompatible with persistence and multi-user operation.
 
-⸻
 
-Validation / Acceptance Criteria
+## Validation / Acceptance Criteria
 	•	Requests without authentication return 401 Unauthorized.
 	•	A user cannot access another user’s conversations or cards.
 	•	Background jobs cannot read or write data outside their associated user scope.
 	•	All persisted data is associated with a user identity.
 
-⸻
 
 ## Links
 
