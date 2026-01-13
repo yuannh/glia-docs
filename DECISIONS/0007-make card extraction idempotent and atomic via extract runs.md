@@ -30,25 +30,25 @@ Extraction results are treated as derived facts, not incremental mutations.
 
 ## Consequences
 
-Positive
+### Positive
 	•	Background jobs are safe to retry without risk of duplication or corruption.
 	•	Card state is always internally consistent.
 	•	Failures are observable and recoverable.
 	•	The system cleanly separates primary facts (messages) from derived facts (cards).
 
-Trade-offs
+### Trade-offs
 	•	Extraction requires explicit bookkeeping and metadata.
 	•	Cards are rewritten wholesale rather than patched incrementally.
 	•	The extraction pipeline is more complex than a naive implementation.
 
 
 ## Alternatives Considered
-	•	Incremental card updates
-Rejected: prone to partial failure and difficult to reason about.
-	•	Best-effort deduplication
-Rejected: unreliable under retries and concurrency.
-	•	In-memory idempotency guards
-Rejected: incompatible with multi-instance deployment.
+	•Incremental card updates
+	Rejected: prone to partial failure and difficult to reason about.
+	•Best-effort deduplication
+	Rejected: unreliable under retries and concurrency.
+	•In-memory idempotency guards
+	Rejected: incompatible with multi-instance deployment.
 
 
 ## Validation / Acceptance Criteria
