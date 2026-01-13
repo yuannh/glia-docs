@@ -67,3 +67,6 @@ Validation / Acceptance Criteria
 Links
 	•	ADR 0003: Cards as Derived Facts
 	•	ADR 0007: Make Card Extraction Idempotent and Atomic
+	•   Architecture — Phase 2  
+        This decision is reflected as a core system constraint in
+        `architecture/phase-2.md`.
