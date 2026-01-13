@@ -3,8 +3,6 @@ ADR 0008: Treat LLM Failure as a Recoverable Condition via Deterministic Fallbac
 Status: Accepted
 Date: 2026-01-12
 
-⸻
-
 ## Context
 
 Large language model (LLM) calls are inherently unreliable due to network issues, rate limits, quota exhaustion, and provider errors.
@@ -16,7 +14,6 @@ If LLM failure is treated as system failure:
 
 However, card extraction is a derived enhancement, not a core transactional requirement.
 
-⸻
 
 ## Decision
 
@@ -59,7 +56,6 @@ Rejected: leads to queue backlogs and unpredictable latency.
 	•	Extract runs record whether fallback was used and the failure reason.
 	•	Cards are always produced for extractable conversations.
 	•	Operators can distinguish LLM success from fallback success.
-
 
 
 ## Links
