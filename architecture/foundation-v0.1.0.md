@@ -1,15 +1,15 @@
 #  Glia Backend Engineering Memo
 
-> Version: foundation-v0.1.0
-> Scope: Step 1 → Step 12 (Phase 1–2)
-> Status: Locked as Foundation
+Version: foundation-v0.1.0
+Scope: Step 1 → Step 12 (Phase 1–2)
+Status: Locked as Foundation
 
 
 ## 1. Purpose
 
-> This memo documents the completed backend foundation of Glia from Step 1 through the current Phase 2 milestone.
-> The system described here is considered stable, validated, and locked.
-> All future development must preserve the invariants defined in this memo.
+This memo documents the completed backend foundation of Glia from Step 1 through the current Phase 2 milestone.
+The system described here is considered stable, validated, and locked.
+All future development must preserve the invariants defined in this memo.
 
 
 ## 2. What This Version Is
@@ -59,9 +59,9 @@ This is a product decision, not a temporary workaround.
 
 ### 3.4 Card Extraction Semantics (Critical Invariant)
 
-> All card extraction — debug or background — obeys the same rule:
+All card extraction — debug or background — obeys the same rule:
 
-> Extraction replaces the entire card set for a conversation atomically
+Extraction replaces the entire card set for a conversation atomically
 
 Implementation rule:
 - replace_for_conversation(...) is the only valid write path
@@ -80,9 +80,9 @@ This prevents:
 | EMIT_CARD_EVENTS=0  | Background job extraction                     |
 
 Invariant:
-> Both modes produce the same final card state.
+Both modes produce the same final card state.
 
-> Debug mode exists only for observability and validation.
+Debug mode exists only for observability and validation.
 
 ### 4. Observability & Idempotency (Step 11–12)
 	•	Every extraction run is recorded in card_extract_runs
@@ -94,7 +94,7 @@ Invariant:
 	•	Why?
 	•	With which model?
 
-> This enables replay, audit, and regression analysis.
+This enables replay, audit, and regression analysis.
 
 ### 5. Explicit Non-Goals of This Version
 
@@ -110,7 +110,7 @@ These belong to Phase 3+.
 
 ### 6. Product Implication (Important)
 
-> Users may stay in one continuous conversation UI forever.
+Users may stay in one continuous conversation UI forever.
 
 Multiple topics, memories, and storylines are expected to be handled via:
 - Card lifecycle
@@ -118,7 +118,7 @@ Multiple topics, memories, and storylines are expected to be handled via:
 - Deduplication
 - Evolution logic
 
-> Not via new conversation IDs.
+Not via new conversation IDs.
 
 ### 7. Validation Status
 
@@ -129,7 +129,7 @@ This version has been validated via:
 - Debug vs background extraction comparison
 - Truncate-and-replay verification
 
-> No unresolved correctness issues remain within scope.
+No unresolved correctness issues remain within scope.
 
 ## 8. Version Lock
 
