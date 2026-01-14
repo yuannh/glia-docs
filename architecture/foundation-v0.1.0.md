@@ -142,17 +142,4 @@ Any future change must:
 
 ## End of Memo
 Status: Accepted as Glia Backend Foundation
----
 
-## Code Reference
-
-This architecture snapshot corresponds to the following backend code state:
-
-- Repository: glia-core (private)
-- Branch: main
-- Tag: phase4-v0.1.0
-- Commit: <GLIA_CORE_COMMIT>
-
-This document describes the system as implemented up to Phase 4
-(topic as first-class isolation unit, topic-scoped cards, and
-topic-scoped extraction runs).
