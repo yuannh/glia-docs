@@ -23,3 +23,14 @@ accepted constraints and invariants.
 
 Future phases will be added as separate documents rather than modifying
 existing ones, preserving architectural intent and decision history.
+
+## Foundation Snapshots
+
+Foundation documents are time-scoped baselines that freeze accepted
+constraints and invariants for a specific backend version.
+
+- [foundation-v0.3.0](./foundation-v0.3.0.md)
+- [foundation-v0.4.0](./foundation-v0.4.0.md)
+- [foundation-v0.5.0](./foundation-v0.5.0.md)
+- [foundation-v0.6.0](./foundation-v0.6.0.md)
+- [foundation-v0.7.0](./foundation-v0.7.0.md)
