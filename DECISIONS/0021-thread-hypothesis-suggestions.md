@@ -56,4 +56,4 @@ Introduce **thread hypothesis suggestions** as an AI-generated, read-only layer.
   - `DECISIONS/0016-narrative-threads-soft-accepted.md`
   - `DECISIONS/0019-prompt-contracts-only-source.md`
 - Related Architecture:
-  - `architecture/foundation-v0.7.0.md`
+  - `architecture/foundation-v0.8.0.md`
