@@ -87,8 +87,8 @@ or implementation specifics.
 
 ## Architecture Documentation
 
-Glia maintains **phase-scoped architecture documentation** to reflect system evolution
-over time.
+Glia maintains **phase-scoped architecture documentation** and **foundation snapshots**
+to reflect system evolution over time.
 
 For the current system design, see:
 
@@ -97,8 +97,11 @@ For the current system design, see:
     *(initial asynchronous foundation)*
   - **Phase 2** — Persistent, Observable, Multi-User-Capable System  
     *(durable state, background execution, identity, and observability)*
+  - **Foundation Snapshots** — Versioned architecture baselines  
+    *(v0.3.0 → v0.9.0)*
 
 Each phase represents a time-scoped snapshot rather than a final or idealized state.
+Foundation snapshots freeze accepted constraints for specific backend versions.
 
 ---
 
