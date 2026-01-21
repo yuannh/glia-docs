@@ -191,8 +191,9 @@ It is **not** intended as:
 Recommended order:
 1. `README.md` — system intent and scope
 2. `architecture/phase-1.md` — architectural snapshot
-3. `DECISIONS/` — reasoning behind key decisions
-4. `SECURITY.md` — security posture
+3. `architecture/` — foundation snapshots and evolution
+4. `DECISIONS/` — reasoning behind key decisions
+5. `SECURITY.md` — security posture
 
 ---
 

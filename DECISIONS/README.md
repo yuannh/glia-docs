@@ -6,6 +6,8 @@ ADRs document **irreversible or high-leverage architectural decisions** made
 during the evolution of the system.  
 They capture *why* a decision was made, not how it was implemented.
 
+Current ADR range: **0001–0029**.
+
 ---
 
 ## What an ADR Is (and Is Not)
