@@ -98,7 +98,7 @@ For the current system design, see:
   - **Phase 2** — Persistent, Observable, Multi-User-Capable System  
     *(durable state, background execution, identity, and observability)*
   - **Foundation Snapshots** — Versioned architecture baselines  
-    *(v0.3.0 → v0.10.0)*
+    *(v0.3.0 → v0.10.1)*
 
 Each phase represents a time-scoped snapshot rather than a final or idealized state.
 Foundation snapshots freeze accepted constraints for specific backend versions.
