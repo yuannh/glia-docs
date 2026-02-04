@@ -10,6 +10,9 @@
  Foundation v0.14.0 introduces a **first-class Notes subsystem** with
  server-derived card fields, presigned uploads, and asset binding to support
  editable user notes with images.
+
+This version range also consolidates link span behavior for story and timeline
+rendering, ensuring spans remain short, semantic, and non-overlapping.
  
  Key additions:
  - Notes are persisted as a first-class domain object with user isolation.
@@ -58,6 +61,17 @@ storage and stable list/detail semantics to support client editing workflows.
  
  ---
  
+## Nav V2 Link Span Rules
+Story and timeline spans are constrained to preserve readability and stable
+navigation behavior.
+
+Constraints:
+- Story/timeline spans must be short, semantic phrases (20–60 characters).
+- Spans must not overlap entity spans or other story spans.
+- Story titles are not used as body anchors; only explicit spans are allowed.
+
+---
+
  ## Observability and Correlation
  Request correlation is mandatory for auditing and supportability.
  

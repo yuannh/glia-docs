@@ -1,4 +1,4 @@
-# adr 0025: story structured blocks with strict voice and length constraints
+# ADR 0025: story structured blocks with strict voice and length constraints
 
 Status: Accepted  
 Date: 2026-01-20
