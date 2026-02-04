@@ -15,6 +15,8 @@ The system already has an idempotent, queued execution path for cards extraction
   the cards-generation workflow asynchronously.
 - **Development/Tuning:** provide a controlled manual trigger to run the same
   workflow on demand.
+- **Scheduler vs executor separation:** scheduling selects scope and enqueues;
+  execution runs asynchronously in background workers.
 - **API layer only enqueues**; it never performs synchronous AI extraction.
 
 ## Alternatives Considered
@@ -39,5 +41,6 @@ The system already has an idempotent, queued execution path for cards extraction
 
 ## Notes
 - Default scope targets recently active topics to avoid full scans.
+- Manual triggering is controlled and not exposed as a public interface.
 - Future enhancements may include user-local scheduling, run persistence,
   and more granular controls.
